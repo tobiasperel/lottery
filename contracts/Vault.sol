@@ -7,11 +7,11 @@ pragma solidity ^0.8.9;
 contract Vault {
     uint8 public count = 0;
 
-    function random() private view returns (uint) {
+    function random() public view returns (uint) {
         return uint(keccak256(abi.encodePacked(block.prevrandao, block.timestamp, count)));        
     }
 
-    function makeMoney() payable public returns (uint){
+    function makeMoney() payable public{
         uint id = random();
         if (count < 5) {
             count++;
@@ -22,6 +22,5 @@ contract Vault {
                 payable(msg.sender).transfer((msg.value*11)/10);
             }
         }
-        return id;
     }
 }

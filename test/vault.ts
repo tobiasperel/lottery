@@ -10,7 +10,7 @@ describe("Vault", function () {
   // We define a fixture to reuse the same setup in every test.
   // We use loadFixture to run this setup once, snapshot that state,
   // and reset Hardhat Network to that snapshot in every test.
-  async function deployVault() {
+  async function deployContract() {
     
     // Contracts are deployed using the first signer/account by default
     const [owner, otherAccount] = await ethers.getSigners();
@@ -20,13 +20,14 @@ describe("Vault", function () {
     return {vault, owner, otherAccount };
   }
 
-  describe("Deployment", function () {
-    it("create token", async function () {
-      const {vault} = await loadFixture(deployVault);
-      const random = await vault.random()
-      console.log(random)
-    });
-  
-  });
+  it("call random function", async function () {
+    const { vault, owner, otherAccount } = await loadFixture(deployContract);
+    console.log(await vault.connect(owner).random())
+  } );
+
+  it("play an ether", async function () {
+    const { vault, owner, otherAccount } = await loadFixture(deployContract);
+    console.log(await vault.connect(owner).makeMoney())
+  } );
 
 });
